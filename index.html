@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinJS</title>
+    
+</head>
+<body>
+    <h1 style="text-align:center;"> Bem vindo a FinJS!</h1>
+    <h2 style="text-align:center;"> Sua plataforma de educação finaceira baseada em JS</h2>
+
+  <table id="tableCursos">
+      <thead>
+          <tr>
+                <th style="visibility: hidden;"> id </th>
+                <th> Título </th>
+                <th> Descrição </th>
+                <th> Imagem </th>
+                <th> Professor </th>
+                <th> Lista de aulas </th>
+				<th style="visibility: hidden;"> actions </th>
+				<th style="visibility: hidden;"> actions </th>
+          </tr>
+      </thead>
+      <tbody>
+          	<tr>
+            	<form>
+         			<td> <input type="hidden" name="id" id="id"> </td>
+            		<td> <input type="text" name="title" id="title" placeholder="Titulo do video"> </td>
+                	<td> <input type="text" name="description" id="description" placeholder="descrição do video"> </td>
+                    <td> <input type="url" src="" alt="" id="image" placeholder="link da imagem"> </td>
+                    <td> <input type="text" name="professor" id="teacher" placeholder="nome do professor"> </td>
+                    <td> <input type="url" src="" alt="" id="linkList" placeholder="lista das aulas"> </td>
+      	</form>
+		  <td> <input type="button" value="adcionar curso" onclick="criarCurso()"> </td>
+         </tr>
+      </tbody>
+
+      
+
+  </table>
+
+    <script src="./script/main.js" defer></script>
+</body>
+</html>
