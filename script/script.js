@@ -1,4 +1,4 @@
-function dbTesteBkp(){
+const dbTesteBkp = () => {
     delDB();
     const cursosJsonDB = 
     [
@@ -28,7 +28,7 @@ function dbTesteBkp(){
             imagem: 'https://i.ytimg.com/vi/rHzzveyJTco/maxresdefault.jpg',
             professor: 'Thiago Nigro',
             listaDeAulas: 'https://www.youtube.com/embed/aA-BlLzPYi0',
-            index: '1'
+            index: '2'
         }, 
         {
             id: '4',
@@ -37,7 +37,7 @@ function dbTesteBkp(){
             imagem: 'https://i.ytimg.com/vi/rHzzveyJTco/maxresdefault.jpg',
             professor: 'Thiago Nigro',
             listaDeAulas: 'https://www.youtube.com/embed/aA-BlLzPYi0',
-            index: '1'
+            index: '3'
         }
     ]
 
@@ -60,7 +60,8 @@ const formPreenchido = () => {
 
 const cursoForm = () => {
     return {
-        id: document.getElementById('id').value,
+        id: Math.floor(Math.random() * 9999) + 1001,
+        index: getDB().length + 1,
         titulo: document.getElementById('title').value,
         descricao: document.getElementById('description').value,
         imagem: document.getElementById('image').value,
@@ -79,14 +80,13 @@ function criarCurso(){
 
     } 
     if (formPreenchido() == true) {
-        alert("tá tudo ok")
 
         const cursosJsonDB = getDB();
         cursosJsonDB.push(cursoForm());
         setDB(cursosJsonDB);
     }
 
-    // readCursos();
+    s();
 }
 
 function exibirCursos(){
@@ -104,7 +104,7 @@ let index = 0;
         }
         if (index == getDB().length - 1) {
 
-            alert('not find given id in the database')
+            alert('id not find in database')
             break 
         }
        
@@ -113,7 +113,32 @@ let index = 0;
 
 }
 
-function listarCursos(){  //esse ´o PROBLEMAAAAAAAAAAAAAAAAAAAAAAAA
+const criaTr = (curso) => {
+        const trLista = document.createElement('tr');
+        trLista.innerHTML = `     
+            <td> ${curso.id}  </td>
+            <td> ${curso.index} </td>
+            <td> ${curso.titulo} </td>
+            <td> ${curso.descricao} </td>
+            <td> <img width="160" height="80" src="${curso.imagem}"> </td>
+            <td> ${curso.professor} </td>
+            <td><iframe width="480" height="270" src="${curso.listaDeAulas.replace("watch?v=", "embed/")}" title="YouTube video player" frameborder="0" allowfullscreen></iframe></td>
+            <td> <input type="button" id="editButton${curso.id}" value="editar curso" onclick="atualizarCurso()"> </td>
+            <td> <input type="button" id="deletetButton${curso.id}" value="excluir curso" onclick="deletarCurso()"> </td>
+        `;
+        document.querySelector('#tableCursos>tbody').appendChild(trLista);
+    }
+
+function atualizarCurso(){
+
+}
+
+
+function deletarCurso(){
+
+}
+
+function listaCursos(){ 
 
     if (getDB() == []) {
        limpaTable();        
@@ -130,28 +155,4 @@ function listarCursos(){  //esse ´o PROBLEMAAAAAAAAAAAAAAAAAAAAAAAA
 
         })  
     }
-    
-
-    
-}
-
-function criaTr(curso) {
-        const trLista = document.createElement('tr');
-        trLista.innerHTML = `     
-            <td> ${curso.id}  </td>
-            <td> ${curso.index} </td>
-            <td> ${curso.titulo} </td>
-            <td> ${curso.descricao} </td>
-            <td> <img width="160" height="80" src="${curso.imagem}"> </td>
-            <td> ${curso.professor} </td>
-            <td><iframe width="480" height="270" src="${curso.listaDeAulas.replace("watch?v=", "embed/")}" title="YouTube video player" frameborder="0" allowfullscreen></iframe></td>
-            <td> <input type="button" id="editButton${curso.id}" value="editar curso" onclick="updateCursos()"> </td>
-            <td> <input type="button" id="deletetButton${curso.id}" value="excluir curso" onclick="deleteCursos()"> </td>
-        `;
-        document.querySelector('#tableCursos>tbody').appendChild(trLista);
-    }
-
-
-function deleteCursos(){
-
 }
