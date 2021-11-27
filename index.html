@@ -19,7 +19,8 @@
             <td> <input type="url"  alt="" id="image" placeholder="link da imagem" required> </td>
             <td> <input type="text" name="professor" id="teacher" placeholder="nome do professor" required> </td>
             <td> <input type="url" alt="" id="linkList" placeholder="lista das aulas" required> </td>
-            <td> <input type="reset" id="addCursoButton" value="adcionar curso" onclick="criarCurso()"> </td>
+            <td> <input type="reset" id="addCursoButton" value="Adicionar curso" onclick="criarCurso()"> </td>
+            <td> <input type="hidden" id="updateCursoButton" value="Atualizar curso" onclick="updateCurso()"> </td>
         </form> <br>
     
     <form id="formSearch">
@@ -29,7 +30,7 @@
     <p> Ou, <button onclick="listaCursos()">Listar</button> todos os cursos</p>
 
 <br>
-  <table id="tableCursos">
+  <table id="tableCursos" style="visibility:hidden;">
       <thead>
           <tr>
                 <th> id </th>
