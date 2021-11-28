@@ -14,13 +14,14 @@
   
         <form id="form">        
             <td> <input type="hidden" name="id" id="id"> </td>
+            <td> <input type="hidden" name="index" id="index"></td>
             <td> <input type="text" name="title" id="title" placeholder="Titulo do video" required> </td>
             <td> <input type="text" name="description" id="description" placeholder="descrição do video" required> </td>
             <td> <input type="url"  alt="" id="image" placeholder="link da imagem" required> </td>
             <td> <input type="text" name="professor" id="teacher" placeholder="nome do professor" required> </td>
-            <td> <input type="url" alt="" id="linkList" placeholder="lista das aulas" required> </td>
+            <td> <input type="url" alt="" id="linkList" placeholder="link da aula" required> </td>
             <td> <input type="reset" id="addCursoButton" value="Adicionar curso" onclick="criarCurso()"> </td>
-            <td> <input type="hidden" id="updateCursoButton" value="Atualizar curso" onclick="updateCurso()"> </td>
+            <td> <input type="hidden" id="updateCursoButton" value="Atualizar curso" onclick="atualizarCurso()"> </td>
         </form> <br>
     
     <form id="formSearch">

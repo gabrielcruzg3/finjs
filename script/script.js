@@ -61,8 +61,8 @@ const formPreenchido = () => {
 
 const cursoAddForm = () => {
     return {
-        id: Math.floor(Math.random() * 9999) + 1001,
-        index: getDB().length + 1,
+        id: Math.random().toString(36).slice(-8),
+        index: getDB().length ?? getDB().length + 1,
         titulo: document.getElementById('title').value,
         descricao: document.getElementById('description').value,
         imagem: document.getElementById('image').value,
@@ -71,10 +71,10 @@ const cursoAddForm = () => {
     }
 }
 
-const cursoUpdateForm = (curso) => {
+const cursoUpdateForm = () => {
     return {
-        id: curso.id,
-        index: curso.index,
+        id: document.getElementById('id').value,
+        index: document.getElementById('index').value,
         titulo: document.getElementById('title').value,
         descricao: document.getElementById('description').value,
         imagem: document.getElementById('image').value,
@@ -83,23 +83,31 @@ const cursoUpdateForm = (curso) => {
     }
 }
 
-
 const limpaTable = () => {
     document.querySelectorAll('#tableCursos>tbody>tr').forEach(tr => tr.parentNode.removeChild(tr))
     document.getElementById('tableCursos').style = "visibility: hidden";
+    // if((document.getElementById('addCursoButton').type = 'reset') == true){
+    //     document.getElementById('updateCursoButton').type = 'hidden'
+    // }else{
+    //     document.getElementById('addCursoButton').type = 'hidden'
+    //     document.getElementById('updateCursoButton').type = 'reset'
+    // }
+    
 }
 const tableVisible = () =>  document.getElementById('tableCursos').style = "visibility: visible";
 
-const fillFormEdit = (curso) => {
-    document.getElementById('title').value = curso.titulo
-    document.getElementById('description').value = curso.descricao
-    document.getElementById('image').value = curso.imagem
-    document.getElementById('teacher').value = curso.professor
-    document.getElementById('linkList').value = curso.listaDeAulas
-    const addCurso = document.getElementById('addCursoButton');
-    addCurso.value = "Atualizar Curso"
-    addCurso.onclick = "updateCurso()"
-    addCurso.id = 'updateCursoButton'
+const fillFormForEdit = (cursoForEdit) => {
+    document.getElementById('id').value = cursoForEdit.id,
+    document.getElementById('index').value = cursoForEdit.index,
+    document.getElementById('title').value = cursoForEdit.titulo
+    document.getElementById('description').value = cursoForEdit.descricao
+    document.getElementById('image').value = cursoForEdit.imagem
+    document.getElementById('teacher').value = cursoForEdit.professor
+    document.getElementById('linkList').value = cursoForEdit.listaDeAulas
+    // const addCurso = document.getElementById('addCursoButton');
+    // addCurso.value = "Atualizar Curso"
+    // addCurso.onclick = "updateCurso()"
+    // addCurso.id = 'updateCursoButton'
 }
 
 const criaTr = (curso) => {
@@ -112,28 +120,36 @@ const criaTr = (curso) => {
         <td> <img width="160" height="80" src="${curso.imagem}"> </td>
         <td> ${curso.professor} </td>
         <td><iframe width="240" height="135" src="${curso.listaDeAulas.replace("watch?v=", "embed/")}" title="YouTube video player" frameborder="0" allowfullscreen></iframe></td>
-        <td> <input type="button" name="editButton${curso.id}" id="${curso.id}" value="editar curso" onclick="atualizarCurso()"> </td>
+        <td> <input type="button" name="editButton${curso.id}" id="${curso.id}" value="editar curso" onclick="editarCurso()"> </td>
         <td> <input type="button" name="deletetButton${curso.id}" id="${curso.id}" value="excluir curso" onclick="deletarCurso()"> </td>
     `;
     document.querySelector('#tableCursos>tbody').appendChild(trLista);
 }
 
-const updateCurso = (curso) => {
+const editarCurso = () => {
+    
 
-    if (formPreenchido() == false){
-        alert("Por favor preencha os campos!")
+    const idSearchForEdit = event.target.id
 
-    } 
-    if (formPreenchido() == true) {
-alert("upadte true")
-        if(curso.index == cursoUpdateForm(curso.index)){
-            console.log("inception")
-            getDB()[curso.index]  = curso;
-        getDB()[curso.index].push(cursoUpdateForm());
-        setDB(getDB()[curso.index]);
+    let index = 0;
+    do{
+        if(idSearchForEdit == getDB()[index].id){
+
+                tableVisible();
+
+                const cursoForEdit = getDB()[index]
+                fillFormForEdit(cursoForEdit);
+
+                break
+            }
         
-        }
-    }
+       
+         index++; 
+    }while(index <= getDB().length)
+    
+    listaCursos()
+    document.getElementById('addCursoButton').type = 'hidden'
+    document.getElementById('updateCursoButton').type = 'reset'
 }
 
 function criarCurso(){
@@ -186,37 +202,19 @@ function exibirCursos(){
 
 }
 
-
-
 function atualizarCurso(){
+    document.getElementById('updateCursoButton').type = 'hidden'
+    document.getElementById('addCursoButton').type = 'reset'
 
-// let edit = document.getElementsByName('editButton')
-        const idSearch = event.target.id
+        const getIndex = document.getElementById('index').value;
 
-    let index = 0;
-    do{
-        if(idSearch == getDB()[index].id){
-
-            tableVisible();
-            alert("attrcursos")
-
-            const curso = getDB()[index]
-            fillFormEdit(curso);
-            updateCurso(curso);
-            
-            return true
-        }
-        // if (index == getDB().length - 1) { 
-
-        //     alert('id not find in database')
-        //     limpaTable();
-        //     return false
-        // }
-       
-         index++; 
-    }while(index <= getDB().length)
-    exibirCursos()
+        const cursoForUpdate = getDB();
+        cursoForUpdate[getIndex] = cursoUpdateForm();
+        setDB(cursoForUpdate);
     
+
+ 
+    listaCursos();
 }
 
 
@@ -243,6 +241,8 @@ function deletarCurso(){
     }while(index <= getDB().length)
 
     listaCursos()
+    document.getElementById('addCursoButton').type = 'reset';
+document.getElementById('updateCursoButton').type = 'hidden';
 
 }
 
@@ -267,9 +267,11 @@ function listaCursos(){
 }
 
 window.addEventListener('button', function () {
-        atualizarCurso();
+        editarCurso();
         deletarCurso()
     })
 
 const updateButton = document.getElementById('updateCursoButton');
     updateButton.addEventListener('button', () => updateCurso())
+
+    listaCursos()
