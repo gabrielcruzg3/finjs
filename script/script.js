@@ -45,6 +45,14 @@ const dbTesteBkp = () => {
     listaCursos()
 
 }
+
+const utcDate = (dateUtc) => {
+    var date = new Date(); 
+    var dateUtc = Date.now();
+ return dateUtc;
+}
+
+
 ///////////////////////////////////////////////////
 
 
@@ -59,15 +67,19 @@ const formPreenchido = () => {
         return document.getElementById('form').reportValidity();
     }
 
+    const randomId = () => {return Math.random().toString(36).slice(-8)}
+
 const cursoAddForm = () => {
     return {
-        id: Math.random().toString(36).slice(-8),
+        id: randomId(),
         index: getDB().length ?? getDB().length + 1,
         titulo: document.getElementById('title').value,
         descricao: document.getElementById('description').value,
         imagem: document.getElementById('image').value,
         professor: document.getElementById('teacher').value,
-        listaDeAulas: document.getElementById('linkList').value       
+        listaDeAulas: document.getElementById('linkList').value,
+        dateAdded: utcDate(),
+        dateUpdated: ""
     }
 }
 
@@ -79,7 +91,9 @@ const cursoUpdateForm = () => {
         descricao: document.getElementById('description').value,
         imagem: document.getElementById('image').value,
         professor: document.getElementById('teacher').value,
-        listaDeAulas: document.getElementById('linkList').value
+        listaDeAulas: document.getElementById('linkList').value,
+        dateAdded: document.getElementById('dateAdded').value,
+        dateUpdated: utcDate()
     }
 }
 
@@ -92,8 +106,8 @@ const limpaTable = () => {
     //     document.getElementById('addCursoButton').type = 'hidden'
     //     document.getElementById('updateCursoButton').type = 'reset'
     // }
-    
 }
+
 const tableVisible = () =>  document.getElementById('tableCursos').style = "visibility: visible";
 
 const fillFormForEdit = (cursoForEdit) => {
@@ -104,6 +118,7 @@ const fillFormForEdit = (cursoForEdit) => {
     document.getElementById('image').value = cursoForEdit.imagem
     document.getElementById('teacher').value = cursoForEdit.professor
     document.getElementById('linkList').value = cursoForEdit.listaDeAulas
+    document.getElementById('dateAdded').value = cursoForEdit.dateAdded
     // const addCurso = document.getElementById('addCursoButton');
     // addCurso.value = "Atualizar Curso"
     // addCurso.onclick = "updateCurso()"
@@ -120,6 +135,8 @@ const criaTr = (curso) => {
         <td> <img width="160" height="80" src="${curso.imagem}"> </td>
         <td> ${curso.professor} </td>
         <td><iframe width="240" height="135" src="${curso.listaDeAulas.replace("watch?v=", "embed/")}" title="YouTube video player" frameborder="0" allowfullscreen></iframe></td>
+        <td> ${curso.dateAdded} </td>
+        <td> ${curso.dateUpdated} </td>
         <td> <input type="button" name="editButton${curso.id}" id="${curso.id}" value="editar curso" onclick="editarCurso()"> </td>
         <td> <input type="button" name="deletetButton${curso.id}" id="${curso.id}" value="excluir curso" onclick="deletarCurso()"> </td>
     `;
@@ -142,14 +159,14 @@ const editarCurso = () => {
 
                 break
             }
-        
+            
        
          index++; 
     }while(index <= getDB().length)
     
-    listaCursos()
     document.getElementById('addCursoButton').type = 'hidden'
-    document.getElementById('updateCursoButton').type = 'reset'
+            document.getElementById('updateCursoButton').type = 'reset'
+    listaCursos()
 }
 
 function criarCurso(){
@@ -203,8 +220,7 @@ function exibirCursos(){
 }
 
 function atualizarCurso(){
-    document.getElementById('updateCursoButton').type = 'hidden'
-    document.getElementById('addCursoButton').type = 'reset'
+   
 
         const getIndex = document.getElementById('index').value;
 
@@ -213,7 +229,8 @@ function atualizarCurso(){
         setDB(cursoForUpdate);
     
 
- 
+  document.getElementById('updateCursoButton').style = 'visibility :hidden'
+    document.getElementById('addCursoButton').type = 'reset'
     listaCursos();
 }
 
@@ -247,7 +264,6 @@ document.getElementById('updateCursoButton').type = 'hidden';
 }
 
 function listaCursos(){ 
-
     if (getDB() == "") {
        limpaTable();     
         
