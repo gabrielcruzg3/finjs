@@ -1,60 +1,9 @@
-const dbTesteBkp = () => {
-    delDB();
-    const cursosJsonDB = 
-    [
-        {
-            id: '0',
-            titulo: 'RUMO AO BILHÃO #8 | COMPREI BITCOIN! (BCFF12 e SMALL CAP também!)',
-            descricao: 'ABRA SUA CONTA GRATUITAMENTE NA XDEX: http://bit.ly/2vYMOljOUÇA O PRIMOCAST: htstraseprim...',
-            imagem: 'https://i.ytimg.com/vi/rHzzveyJTco/maxresdefault.jpg',
-            professor: 'Thiago Nigro',
-            listaDeAulas: 'https://www.youtube.com/embed/rHzzveyJTco',
-            index: '0'
-
-        }, 
-        {
-            id: '2',
-            titulo: 'RUMO AO BILHÃO #9',
-            descricao: 'ABRA SUA CONTA Rico: https://bit.ly/cadastraseprim...',
-            imagem: 'https://i.ytimg.com/vi/rHzzveyJTco/maxresdefault.jpg',
-            professor: 'Thiago Nigro',
-            listaDeAulas: 'https://www.youtube.com/embed/aA-BlLzPYi0',
-            index: '1'
-        }, 
-        {
-            id: '3',
-            titulo: 'RUMO AO BILHÃO #9',
-            descricao: 'ABRA SUA CONTA Rico: https://bit.ly/cadastraseprim...',
-            imagem: 'https://i.ytimg.com/vi/rHzzveyJTco/maxresdefault.jpg',
-            professor: 'Thiago Nigro',
-            listaDeAulas: 'https://www.youtube.com/embed/aA-BlLzPYi0',
-            index: '2'
-        }, 
-        {
-            id: '4',
-            titulo: 'RUMO AO BILHÃO #9',
-            descricao: 'ABRA SUA CONTA Rico: https://bit.ly/cadastraseprim...',
-            imagem: 'https://i.ytimg.com/vi/rHzzveyJTco/maxresdefault.jpg',
-            professor: 'Thiago Nigro',
-            listaDeAulas: 'https://www.youtube.com/embed/aA-BlLzPYi0',
-            index: '3'
-        }
-    ]
-
-    localStorage.setItem('cursosDB', JSON.stringify(cursosJsonDB))
-    listaCursos()
-
-}
-
 const utcDate = (dateUtc) => {
-    var date = new Date(); 
     var dateUtc = Date.now();
  return dateUtc;
 }
 
-
 ///////////////////////////////////////////////////
-
 
 const getDB = () => JSON.parse(localStorage.getItem('cursosDB')) ?? [];
 const setDB = (cursosJsonDB) => localStorage.setItem('cursosDB', JSON.stringify(cursosJsonDB));
@@ -67,7 +16,7 @@ const formPreenchido = () => {
         return document.getElementById('form').reportValidity();
     }
 
-    const randomId = () => {return Math.random().toString(36).slice(-8)}
+    const randomId = () => {return Math.random().toString(36).slice(-4)} 
 
 const cursoAddForm = () => {
     return {
@@ -100,12 +49,7 @@ const cursoUpdateForm = () => {
 const limpaTable = () => {
     document.querySelectorAll('#tableCursos>tbody>tr').forEach(tr => tr.parentNode.removeChild(tr))
     document.getElementById('tableCursos').style = "visibility: hidden";
-    // if((document.getElementById('addCursoButton').type = 'reset') == true){
-    //     document.getElementById('updateCursoButton').type = 'hidden'
-    // }else{
-    //     document.getElementById('addCursoButton').type = 'hidden'
-    //     document.getElementById('updateCursoButton').type = 'reset'
-    // }
+    
 }
 
 const tableVisible = () =>  document.getElementById('tableCursos').style = "visibility: visible";
@@ -119,10 +63,23 @@ const fillFormForEdit = (cursoForEdit) => {
     document.getElementById('teacher').value = cursoForEdit.professor
     document.getElementById('linkList').value = cursoForEdit.listaDeAulas
     document.getElementById('dateAdded').value = cursoForEdit.dateAdded
-    // const addCurso = document.getElementById('addCursoButton');
-    // addCurso.value = "Atualizar Curso"
-    // addCurso.onclick = "updateCurso()"
-    // addCurso.id = 'updateCursoButton'
+}
+
+const emptyForm = () => {
+    if ( (document.getElementById('addCursoButton').type) == 'hidden') {
+        document.getElementById('addCursoButton').type = 'reset'
+        document.getElementById('updateCursoButton').type = 'hidden'
+        
+    }
+    const cleanForm = ""
+    document.getElementById('id').value = cleanForm
+    document.getElementById('index').value = cleanForm
+    document.getElementById('title').value = cleanForm
+    document.getElementById('description').value = cleanForm
+    document.getElementById('image').value = cleanForm
+    document.getElementById('teacher').value = cleanForm
+    document.getElementById('linkList').value = cleanForm
+    document.getElementById('dateAdded').value = cleanForm
 }
 
 const criaTr = (curso) => {
@@ -134,11 +91,11 @@ const criaTr = (curso) => {
         <td> ${curso.descricao} </td>
         <td> <img width="160" height="80" src="${curso.imagem}"> </td>
         <td> ${curso.professor} </td>
-        <td><iframe width="240" height="135" src="${curso.listaDeAulas.replace("watch?v=", "embed/")}" title="YouTube video player" frameborder="0" allowfullscreen></iframe></td>
+        <td><a href="${curso.listaDeAulas}">Link da Aula</a></td>
         <td> ${curso.dateAdded} </td>
         <td> ${curso.dateUpdated} </td>
-        <td> <input type="button" name="editButton${curso.id}" id="${curso.id}" value="editar curso" onclick="editarCurso()"> </td>
-        <td> <input type="button" name="deletetButton${curso.id}" id="${curso.id}" value="excluir curso" onclick="deletarCurso()"> </td>
+        <td> <input type="button" id="${curso.id}" name="editCursoButton" value="editar curso" onclick="editarCurso()"> </td>
+        <td> <input type="button" id="${curso.id}" name="deleteCursoButton" value="excluir curso" onclick="deletarCurso()"> </td>
     `;
     document.querySelector('#tableCursos>tbody').appendChild(trLista);
 }
@@ -165,7 +122,7 @@ const editarCurso = () => {
     }while(index <= getDB().length)
     
     document.getElementById('addCursoButton').type = 'hidden'
-            document.getElementById('updateCursoButton').type = 'reset'
+    document.getElementById('updateCursoButton').type = 'reset'
     listaCursos()
 }
 
@@ -228,8 +185,9 @@ function atualizarCurso(){
         cursoForUpdate[getIndex] = cursoUpdateForm();
         setDB(cursoForUpdate);
     
-
-  document.getElementById('updateCursoButton').style = 'visibility :hidden'
+        
+    emptyForm()
+    document.getElementById('updateCursoButton').type = 'hidden'
     document.getElementById('addCursoButton').type = 'reset'
     listaCursos();
 }
@@ -264,15 +222,16 @@ document.getElementById('updateCursoButton').type = 'hidden';
 }
 
 function listaCursos(){ 
+    
+    
     if (getDB() == "") {
        limpaTable();     
         
     }
     else
     {
-        limpaTable();
+        limpaTable()
         tableVisible()
-        
 
         getDB().forEach(curso => {
 
@@ -282,12 +241,10 @@ function listaCursos(){
     }
 }
 
-window.addEventListener('button', function () {
-        editarCurso();
-        deletarCurso()
-    })
+// document.getElementsByName('editCursoButton').addEventListener('button', () => editarCurso()) 
 
-const updateButton = document.getElementById('updateCursoButton');
-    updateButton.addEventListener('button', () => updateCurso())
+// document.getElementsByName('deleteCursoButton').addEventListener('button', () => deletarCurso())
+
+// document.getElementById('updateCursoButton').addEventListener('button', () => atualizarCurso())
 
     listaCursos()
