@@ -3,45 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FinJS</title>
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
     <h1 style="text-align:center;"> Bem vindo a FinJS!</h1>
     <h2 style="text-align:center;"> Sua plataforma de educação finaceira baseada em JS</h2>
 
-  <table id="tableCursos">
+  
+        <form id="form">        
+            <td> <input type="hidden" name="id" id="id"> </td>
+            <td> <input type="hidden" name="index" id="index"></td>
+            <td> <input type="text" name="title" id="title" placeholder="Titulo do video" required> </td>
+            <td> <input type="text" name="description" id="description" placeholder="descrição do video" required> </td>
+            <td> <input type="url"  alt="" id="image" placeholder="link da imagem" required> </td>
+            <td> <input type="text" name="professor" id="teacher" placeholder="nome do professor" required> </td>
+            <td> <input type="url" alt="" id="linkList" placeholder="link da aula" required> </td>
+            <td> <input type="hidden" name="date" id="dateAdded"></td>
+            <td> <input type="reset" id="addCursoButton" value="Adicionar curso" onclick="criarCurso()"> </td>
+            <td> <input type="hidden" id="updateCursoButton" value="Atualizar curso" onclick="atualizarCurso()"> </td>
+        </form> <br>
+    
+    <form id="formSearch">
+        <input type="search" id="cursoSearch" placeholder="Procurar curso por id">
+        <input type="reset" id="searchCursoButton" value="Procurar" onclick="exibirCursos()">
+    </form> 
+    <p> Ou, <button onclick="listaCursos()">Listar</button> todos os cursos</p>
+
+<br>
+  <table id="tableCursos" style="visibility:hidden;">
       <thead>
           <tr>
-                <th style="visibility: hidden;"> id </th>
+                <th> id </th>
+                <th> Index </th>
                 <th> Título </th>
                 <th> Descrição </th>
                 <th> Imagem </th>
                 <th> Professor </th>
                 <th> Lista de aulas </th>
-				<th style="visibility: hidden;"> actions </th>
-				<th style="visibility: hidden;"> actions </th>
+                <th> Adição</th>
+                <th> Modificação</th>
+				<th> editar </th>
+				<th> excluir </th>
           </tr>
       </thead>
       <tbody>
-          	<tr>
-            	<form>
-         			<td> <input type="hidden" name="id" id="id"> </td>
-            		<td> <input type="text" name="title" id="title" placeholder="Titulo do video"> </td>
-                	<td> <input type="text" name="description" id="description" placeholder="descrição do video"> </td>
-                    <td> <input type="url" src="" alt="" id="image" placeholder="link da imagem"> </td>
-                    <td> <input type="text" name="professor" id="teacher" placeholder="nome do professor"> </td>
-                    <td> <input type="url" src="" alt="" id="linkList" placeholder="lista das aulas"> </td>
-      	</form>
-		  <td> <input type="button" value="adcionar curso" onclick="criarCurso()"> </td>
-         </tr>
+          <!--  -->
       </tbody>
-
-      
-
   </table>
 
-    <script src="./script/main.js" defer></script>
-</body>
-</html>
+    <script src="./script/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
