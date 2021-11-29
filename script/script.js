@@ -1,6 +1,26 @@
-const utcDate = (dateUtc) => {
-    var dateUtc = Date.now();
+const utcDate = () => {
+    const dateUtc = Date.now();
  return dateUtc;
+}
+
+    
+const convertUtcDateAdded = (getDateAdded) => {
+    let dateAddedToConvert = new Date(getDateAdded)
+    const date = dateAddedToConvert.getDate();
+    const month = dateAddedToConvert.getMonth();
+    const year = dateAddedToConvert.getFullYear();
+    return `${date}/${month}/${year}`;
+}
+const convertUtcDateUpdated = (getDateUpdated) => {
+    if (getDateUpdated == "") {
+        return "";
+    }else{
+    let dateUpdatedToConvert = new Date(getDateUpdated)
+    const date1 = dateUpdatedToConvert.getDate();
+    const month1 = dateUpdatedToConvert.getMonth();
+    const year1 = dateUpdatedToConvert.getFullYear();
+    return `${date1}/${month1}/${year1}`;
+    }
 }
 
 ///////////////////////////////////////////////////
@@ -21,7 +41,7 @@ const formPreenchido = () => {
 const cursoAddForm = () => {
     return {
         id: randomId(),
-        index: getDB().length ?? getDB().length + 1,
+        index: getDB().length + 1,
         titulo: document.getElementById('title').value,
         descricao: document.getElementById('description').value,
         imagem: document.getElementById('image').value,
@@ -92,8 +112,8 @@ const criaTr = (curso) => {
         <td> <img width="160" height="80" src="${curso.imagem}"> </td>
         <td> ${curso.professor} </td>
         <td><a href="${curso.listaDeAulas}">Link da Aula</a></td>
-        <td> ${curso.dateAdded} </td>
-        <td> ${curso.dateUpdated} </td>
+        <td> ${convertUtcDateAdded(Number(curso.dateAdded))} </td>
+        <td> ${convertUtcDateUpdated(curso.dateUpdated)} </td>
         <td> <input type="button" id="${curso.id}" name="editCursoButton" value="editar curso" onclick="editarCurso()"> </td>
         <td> <input type="button" id="${curso.id}" name="deleteCursoButton" value="excluir curso" onclick="deletarCurso()"> </td>
     `;
@@ -165,7 +185,7 @@ function exibirCursos(){
         }  
         else{
 
-            alert('id not find in database')
+            alert('Não foi possivel encontrar o ID informado :(')
             limpaTable();
             listaCursos();
             return false
