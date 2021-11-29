@@ -165,7 +165,7 @@ function exibirCursos(){
         }  
         else{
 
-            alert('id not find in database')
+            alert('Não foi possivel encontrar o ID informado :(')
             limpaTable();
             listaCursos();
             return false
